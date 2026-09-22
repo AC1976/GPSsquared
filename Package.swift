@@ -1,27 +1,28 @@
-// swift-tools-version: 6.3
-// The swift-tools-version declares the minimum version of Swift required to build this package.
-
+// swift-tools-version: 6.0
 import PackageDescription
 
 let package = Package(
     name: "GPSsquared",
     products: [
-        // Products define the executables and libraries a package produces, making them visible to other packages.
+        // 🌟 ONLY expose the library target to external users
         .library(
             name: "GPSsquared",
-            targets: ["GPSsquared"]
-        ),
+            targets: ["GPSsquared"]),
     ],
     targets: [
-        // Targets are the basic building blocks of a package, defining a module or a test suite.
-        // Targets can depend on other targets in this package and products from dependencies.
+        // Core framework library (Shared across all platforms)
         .target(
-            name: "GPSsquared"
-        ),
-        // Terminal testing tool
+            name: "GPSsquared",
+            dependencies: []),
+        
+        // 🔒 Internal CLI tool for your local testing (Ignored by external apps)
         .executableTarget(
             name: "GPSsquared_terminal",
-            dependencies: ["GPSsquared"])
-    ],
-    swiftLanguageModes: [.v6]
+            dependencies: ["GPSsquared"]),
+        
+        // 🧪 Comprehensive unit test suites
+        .testTarget(
+            name: "GPSsquaredTests",
+            dependencies: ["GPSsquared"]),
+    ]
 )
